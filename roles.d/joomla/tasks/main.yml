@@ -1,0 +1,60 @@
+---
+# tasks file for roles.d/joomla
+- name: "Installation des packages"
+  import_tasks:
+    file: install_packages.yml
+
+- name: "Activation et démarrage d'apache"
+  systemd:
+    name: apache2
+    state: started
+    enabled: true
+  become: yes
+  
+- name: "Force l'écrasement de la dernière archive installée"
+  set_fact:
+    j_force_param_str: "yes"
+  when: joomla_force_reinstall
+  
+- name: "Ne force pas l'écrasement de la dernière archive installée"
+  set_fact:
+    j_force_param_str: "no"
+  when: joomla_force_reinstall == false
+  
+- name: "Téléchargement de Joomla vers HOME/joomla.zip si déploiement par le WEB"
+  get_url: url="{{joomla_dist_url}}" dest="~/joomla.zip" force="{{j_force_param_str}}"
+  when: joomla_deploy_from_web == true
+  tags:
+  - joomla
+
+- name: "Déploiement avec l'archive sur le système de fichier monté /vagrant"
+  copy: src="{{joomla_dist_url}}" dest="~/joomla.zip" force="{{j_force_param_str}}"
+  when:  joomla_deploy_from_web == false
+  tags: 
+  - joomla
+
+- name: "Suppression du répertoire d'installation si joomla_force_reinstall est true"
+  file: path="{{joomla_install_dir}}" state="absent"
+  when: joomla_force_reinstall == true
+ 
+- name: "Vérification de l'existence du répertoire d'installation et Affectation des droits"
+  file: path="{{joomla_install_dir}}" state="directory"  owner="{{joomla_site_owner}}" group="{{joomla_site_group}}" mode=0775 recurse=yes
+  tags:
+  - joomla  
+  
+- name: "Décompression de l'archive Joomla et Affectation des droits"
+  unarchive: copy=no src="~/joomla.zip" dest="{{joomla_install_dir}}" owner="{{joomla_site_owner}}" group="{{joomla_site_group}}" mode=0775 
+  tags:
+  - joomla
+
+- name: "Modèle de configuration d'apache"
+  template: 
+    src: joomla.conf.j2 
+    dest: "/etc/apache2/sites-available/{{joomla_site_name}}.conf"
+
+- name: "Mise en ligne de la configuration"
+  command: a2ensite {{joomla_site_name}}.conf
+  
+- name: "Redémarrage d'apache"
+  service: name=apache2 state=restarted
+

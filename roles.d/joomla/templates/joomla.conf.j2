@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+     ServerAdmin admin@your_domain.com
+     DocumentRoot {{ joomla_install_dir }} 
+     ServerName {{ inventory_hostname }}
+     ServerAlias www.your_domain.com
+
+     <Directory {{ joomla_install_dir }}>
+          Options FollowSymlinks
+          AllowOverride All
+          Require all granted
+     </Directory>
+
+     ErrorLog ${APACHE_LOG_DIR}/error.log
+     CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+

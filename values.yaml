@@ -1,0 +1,10 @@
+---
+box: 'ubuntu/jammy64'
+script_path: scripts
+ansible_path: provisioning
+ansible_inventory_path: 'provisioning/hosts'
+ansible_config_file: 'provisioning/ansible.cfg'
+
+machines:
+  - ['srvweb','192.168.56.11','512','1','ubuntu/jammy64']
+  - ['srvdb','192.168.56.12','512','1','ubuntu/jammy64']

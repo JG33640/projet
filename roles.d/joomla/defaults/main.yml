@@ -1,0 +1,36 @@
+---
+# defaults file for roles.d/joomla
+
+# Url to get the joomla distribution
+joomla_dist_url: "https://downloads.joomla.org/cms/joomla4/4-2-8/Joomla_4-2-8-Stable-Full_Package.zip"
+
+# When True , do a get_url from {{joomla_dist_url}} 
+# When false, will do a file copy from role files/ directory 
+joomla_deploy_from_web: true
+
+# Fore reinstall - Beware it erase every previous data
+joomla_force_reinstall: false
+
+# delete installation dir or not ? 
+joomla_delete_installation_dir: true
+
+# You should put your site name here
+joomla_site_name: "joomla"
+# Future system user taht will be owner of the site (see suphp)
+joomla_site_owner: "www-data"
+joomla_site_group: "www-data"
+
+# Joomla unzip direcotry 
+joomla_install_dir: "/var/www/html/{{joomla_site_name}}"
+
+# Joomla instance web adress - You should change this :D
+joomla_domain: "joomla.mycompany.com"
+# A self signed certificat subject. (You could replace it by a real professional one later if you want)
+joomla_self_signed_cert_subj: "/C=FR/ST=France/L=Toulouse/O=IT/CN={{joomla_domain}}"
+# Mail adress set in the apache 2 VHOST for the admin mail
+joomla_admin_mail: "YouVhostAdminMail@YourDomain.Com"
+
+# Joomla Instance Title
+joomla_site_title: "Mon site"
+# Joomla SEcret token
+joomla_site_secret: "QQvFeKphGid7CKLy"

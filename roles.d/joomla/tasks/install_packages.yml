@@ -1,0 +1,30 @@
+- name: "Mise à jour des paquets"
+  become: yes 
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: "Installation des paquets pour joomla"
+  become: yes
+  apt: name={{item}} update-cache=yes
+  with_items: 
+  - apache2
+  - wget
+  - unzip
+  - php 
+  - php-common 
+  - libapache2-mod-php 
+  - php-cli 
+  - php-fpm 
+  - php-mysql 
+  - php-json 
+  - php-opcache 
+  - php-gmp 
+  - php-curl 
+  - php-intl 
+  - php-mbstring 
+  - php-xmlrpc 
+  - php-gd 
+  - php-xml 
+  - php-zip
+

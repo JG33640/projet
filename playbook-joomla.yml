@@ -1,0 +1,20 @@
+---
+- name: Rôle joomla 
+  hosts: all
+  become: true
+
+  roles:
+    - role: joomla
+      when: ansible_hostname == "srvweb"
+    
+    - role: geerlingguy.mysql
+      mysql_root_password: joomla
+      mysql_databases:
+        - name: joomla
+      mysql_users:
+        - name: joomla
+          host: '%'
+          password: joomla
+          priv: "joomla.*:ALL"
+      when: ansible_hostname == "srvdb"
+
