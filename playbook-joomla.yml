@@ -1,5 +1,5 @@
 ---
-- name: Rôle joomla 
+- name: Installation de JOOMLA
   hosts: all
   become: true
 
