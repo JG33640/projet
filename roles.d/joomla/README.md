@@ -1,10 +1,11 @@
-Role Name
-=========
+Rôle JOOMLA
+===========
 
 Le rôle installe le CMS JOOMLA et les paquets Apache, php sur l'hôte srvweb défini dans l'inventaire. 
 
-Role Variables
---------------
+Variables du rôle
+-----------------
+
 Ci-dessous le contenu du fichier default/main.yml.
 L'url de téléchargement doit être précisée avec la variable **joomla_dist_url**
 
@@ -38,7 +39,7 @@ joomla_domain: "joomla.mycompany.com"
 ```
 
 Exemple de Playbook
-----------------
+-------------------
 
     - hosts: srvweb
       roles:
